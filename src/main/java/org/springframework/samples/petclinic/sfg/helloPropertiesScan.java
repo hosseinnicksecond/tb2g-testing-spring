@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Profile("externalized")
 @Primary
-public class propertiesScan implements wordProducer{
+public class helloPropertiesScan implements wordProducer{
 
     private String word;
 
