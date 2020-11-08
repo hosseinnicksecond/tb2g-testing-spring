@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Primary;
 public class YanniConfig {
 
     @Bean
-    @Primary
+//    @Primary
     public YanniWordProducer getYanni(){
         return new YanniWordProducer();
     }
