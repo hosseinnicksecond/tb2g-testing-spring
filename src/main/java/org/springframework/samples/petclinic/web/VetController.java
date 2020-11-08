@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author Arjen Poutsma
  */
 @Controller
-public class VetController {
+class VetController {
 
     private final ClinicService clinicService;
 
