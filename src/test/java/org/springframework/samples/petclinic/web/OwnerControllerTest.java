@@ -126,4 +126,33 @@ class OwnerControllerTest {
                 .andExpect(model().attributeExists("owner"))
                 .andExpect(view().name("owners/createOrUpdateOwnerForm"));
     }
+
+    @Test
+    void processUpdateOwnerValidEntry() throws Exception {
+        mockMvc.perform(post("/owners/{ownerId}/edit",22)
+                        .param("firstName","John")
+                        .param("lastName","Doe")
+                        .param("city","chicago")
+                        .param("address","12 street")
+                        .param("telephone","123456"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/owners/{ownerId}"));
+
+        then(clinicService).should().saveOwner(ownerArgumentCaptor.capture());
+
+        assertThat(ownerArgumentCaptor.getValue().getCity()).isEqualTo("chicago");
+    }
+
+    @Test
+    void processUpdateOwnerNotValid() throws Exception {
+        mockMvc.perform(post("/owners/{ownerId}/edit",22)
+                        .param("firsName","lily")
+                        .param("lastName","public")
+                        .param("address","25 street"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/createOrUpdateOwnerForm"))
+                .andExpect(model().attributeHasErrors("owner"))
+                .andExpect(model().attributeHasFieldErrors("owner","city"))
+                .andExpect(model().attributeHasFieldErrors("owner","telephone"));
+    }
 }
